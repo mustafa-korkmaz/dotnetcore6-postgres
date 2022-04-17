@@ -1,7 +1,7 @@
 ﻿
 namespace Domain.Aggregates.Order
 {
-    public class Order : GuidEntity
+    public class Order : EntityBase<Guid>
     {
         public string Username { get; private set; }
 

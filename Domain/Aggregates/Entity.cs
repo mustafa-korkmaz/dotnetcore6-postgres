@@ -9,35 +9,12 @@ namespace Domain.Aggregates
     {
         public TKey Id { get; private set; }
 
+        public EntityBase()
+        {
+            Id = default(TKey);
+        }
+
         public EntityBase(TKey id)
-        {
-            Id = id;
-        }
-    }
-
-
-    /// <summary>
-    /// base entity abstraction with guid primary key
-    /// </summary>
-    public abstract class GuidEntity : IEntity<Guid>
-    {
-        public Guid Id { get; private set; }
-
-        public GuidEntity(Guid id)
-        {
-            Id = id;
-        }
-    }
-
-
-    /// <summary>
-    /// base entity abstraction with long primary key
-    /// </summary>
-    public abstract class LongEntity : IEntity<long>
-    {
-        public long Id { get; private set; }
-
-        public LongEntity(long id)
         {
             Id = id;
         }

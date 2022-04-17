@@ -1,4 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using Domain.Aggregates.Order;
+using Domain.Aggregates.Product;
 using Infrastructure.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -11,6 +13,12 @@ namespace Infrastructure.Persistance.Postgres
         public PostgresDbContext(DbContextOptions options) : base(options)
         {
         }
+      
+        public DbSet<Product> Products { get; set; }
+
+        public DbSet<Order> Orders { get; set; }
+
+        public DbSet<OrderItem> OrderItems { get; set; }
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -210,7 +218,7 @@ namespace Infrastructure.Persistance.Postgres
                     Email = email,
                     NormalizedEmail = email.ToUpper(),
                     EmailConfirmed = true,
-                    CreatedAt = new DateTime(2021, 7, 30),
+                    CreatedAt = new DateTime(2021, 7, 30).ToUniversalTime(),
                     UserName = email,
                     NormalizedUserName = email.ToUpper(),
                     SecurityStamp = "951a4c00-20d0-4d65-9d4a-7db4001c834c",

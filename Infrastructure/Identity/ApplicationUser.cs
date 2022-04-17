@@ -13,6 +13,6 @@ namespace Infrastructure.Identity
         public string? ImageUrl { get; set; }
 
         [Required]
-        public DateTime CreatedAt { get; set; }
+        public DateTimeOffset CreatedAt { get; set; }
     }
 }

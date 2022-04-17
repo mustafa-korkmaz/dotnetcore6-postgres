@@ -1,6 +1,6 @@
 ﻿namespace Domain.Aggregates.Product
 {
-    public class Product : LongEntity
+    public class Product : EntityBase<long>
     {
         public string Sku { get; private set; }
 
@@ -10,7 +10,7 @@
 
         public int StockQuantity { get; private set; }
 
-        public Product(long id, string sku, string name, decimal unitPrice, int stockQuantity) : base(id)
+        public Product(string sku, string name, decimal unitPrice, int stockQuantity)
         {
             Sku = sku;
             Name = name;

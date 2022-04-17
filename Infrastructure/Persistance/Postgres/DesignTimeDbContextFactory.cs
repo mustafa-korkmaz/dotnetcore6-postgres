@@ -12,7 +12,7 @@ namespace Shipper.Api.Dal.Databases.Postgres
         public PostgresDbContext CreateDbContext(string[] args)
         {
             var optionsBuilder = new DbContextOptionsBuilder<PostgresDbContext>();
-            optionsBuilder.UseNpgsql("Server=207.154.194.168;Port=5410;Database=postgres;User Id=postgres;Password=Shipper2021!;CommandTimeout=20;");
+            optionsBuilder.UseNpgsql("Server=tai.db.elephantsql.com;Port=5432;Database=ocziorke;User Id=ocziorke;Password=t67v-NthY60rSJPxna--jB2iPE_WQPF8;CommandTimeout=20;");
 
             return new PostgresDbContext(optionsBuilder.Options);
         }
