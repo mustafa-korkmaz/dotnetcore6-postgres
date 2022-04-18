@@ -1,27 +1,12 @@
 ﻿using Presentation.Middlewares.Validations;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Presentation.ViewModels
 {
     public class ViewModelBase<TKey>
     {
         public TKey Id { get; set; } = default(TKey);
-    }
-
-    public class GuidIdViewModel
-    {
-        [GuidValidation]
-        public string? Id { get; set; }
-
-        public Guid Value => Id == null ? Guid.Empty : Guid.Parse(Id);
-    }
-
-    public class LongIdViewModel
-    {
-        [LongValidation]
-        public long? Id { get; set; }
-
-        public long Value => Id == null ? 0 : Id.Value;
     }
 
     public class ListViewModelRequest

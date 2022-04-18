@@ -34,9 +34,9 @@ namespace Presentation.Controllers
 
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(ProductViewModel), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Get([FromRoute] LongIdViewModel model)
+        public async Task<IActionResult> Get([FromRoute] long id)
         {
-            var o = await _productService.GetByIdAsync(model.Value);
+            var o = await _productService.GetByIdAsync(id);
 
             if (o == null)
             {
@@ -65,11 +65,11 @@ namespace Presentation.Controllers
         [ModelStateValidation]
         [HttpPut("{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Put([FromRoute] LongIdViewModel idModel, [FromBody] AddEditProductViewModel model)
+        public async Task<IActionResult> Put([FromRoute] long id, [FromBody] AddEditProductViewModel model)
         {
             var productDto = _mapper.Map<ProductDto>(model);
 
-            productDto.Id = idModel.Value;
+            productDto.Id = id;
 
             await _productService.UpdateAsync(productDto);
 

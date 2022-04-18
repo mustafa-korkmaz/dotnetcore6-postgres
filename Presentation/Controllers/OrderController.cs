@@ -34,7 +34,7 @@ namespace Presentation.Controllers
 
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(OrderViewModel), (int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Get([FromRoute] string id)
+        public async Task<IActionResult> Get([FromRoute] Guid id)
         {
             var o = await _orderService.GetByIdAsync(id);
 
@@ -43,9 +43,9 @@ namespace Presentation.Controllers
                 return NotFound();
             }
 
-            var model = _mapper.Map<OrderViewModel>(o);
+            var viewModel = _mapper.Map<OrderViewModel>(o);
 
-            return Ok(model);
+            return Ok(viewModel);
         }
 
         [ModelStateValidation]
@@ -65,11 +65,11 @@ namespace Presentation.Controllers
         [ModelStateValidation]
         [HttpPut("{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Put([FromRoute] GuidIdViewModel idModel, [FromBody] AddEditOrderViewModel model)
+        public async Task<IActionResult> Put([FromRoute] Guid id, [FromBody] AddEditOrderViewModel model)
         {
             var orderDto = _mapper.Map<OrderDto>(model);
 
-            orderDto.Id = idModel.Value;
+            orderDto.Id = id;
 
             await _orderService.UpdateAsync(orderDto);
 
@@ -87,7 +87,7 @@ namespace Presentation.Controllers
 
         private async Task<ListViewModelResponse<OrderViewModel>> ListAsync(ListViewModelRequest model)
         {
-            throw new NotImplementedException();    
+            throw new NotImplementedException();
             //var resp = await _orderService.ListAsync(model.Offset, model.Limit);
 
             //return _mapper.Map<ListViewModelResponse<OrderViewModel>>(resp);
