@@ -108,7 +108,7 @@ namespace Application.Services
             await Uow.SaveAsync();
         }
 
-        public virtual async Task  DeleteAsync(object id)
+        public virtual async Task  DeleteByIdAsync(object id)
         {
             var entity = await Repository.GetByIdAsync(id);
 

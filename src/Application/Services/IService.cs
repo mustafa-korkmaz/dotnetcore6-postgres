@@ -34,6 +34,6 @@ namespace Application.Services
         /// hard or soft deletes entity by given id
         /// </summary>
         /// <param name="id"></param>
-        Task DeleteAsync(object id);
+        Task DeleteByIdAsync(object id);
     }
 }
