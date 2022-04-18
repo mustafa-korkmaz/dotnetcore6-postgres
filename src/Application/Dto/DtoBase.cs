@@ -8,7 +8,7 @@ namespace Application.Dto
 
     public class DtoBase<TKey> : IDto<TKey>
     {
-        public TKey Id { get; set; }
+        public TKey Id { get; set; } = default(TKey);
     }
 
     public class ListDtoResponse<TDto, TKey> where TDto : IDto<TKey>

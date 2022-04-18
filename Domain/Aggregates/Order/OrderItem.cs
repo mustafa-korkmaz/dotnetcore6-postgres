@@ -12,7 +12,7 @@ namespace Domain.Aggregates.Order
 
         public long ProductId { get; private set; }
 
-        public Product.Product Product { get; private set; }
+        public Product.Product? Product { get; private set; }
 
         public decimal UnitPrice { get; private set; }
 

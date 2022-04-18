@@ -5,8 +5,8 @@ namespace Presentation.ViewModels.Order
 {
     public class AddEditOrderViewModel
     {
-        [Required]
-        public string Username { get; set; }
+        [GuidValidation]
+        public string? UserId { get; set; }
 
         [Required]
         public ICollection<AddEditOrderItemViewModel> Items { get; set; }

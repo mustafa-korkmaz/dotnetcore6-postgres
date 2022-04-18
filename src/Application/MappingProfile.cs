@@ -10,15 +10,11 @@ namespace Application
     {
         public MappingProfile()
         {
-            //CreateMap<GuidEntity, DtoBase<Guid>();
-            //CreateMap<DtoBase, Document>()
-            //    .ConvertUsing(src => new Document(src.Id));
-
-            //CreateMap(typeof(ListDocumentResponse<>), typeof(ListDtoResponse<>));
+            //CreateMap(typeof(ListEntityResponse<>), typeof(ListDtoResponse<>));
 
             CreateMap<Product, ProductDto>();
-            //CreateMap<ProductDto, Product>()
-            //  .ConvertUsing(src => new Product(ObjectId.GenerateNewId().ToString(), src.Sku, src.Name, src.UnitPrice, src.StockQuantity));
+            CreateMap<ProductDto, Product>()
+              .ConvertUsing(src => new Product(src.Sku, src.Name, src.UnitPrice, src.StockQuantity));
 
             CreateMap<OrderItem, OrderItemDto>();
             CreateMap<Order, OrderDto>();

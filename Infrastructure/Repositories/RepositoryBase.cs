@@ -14,7 +14,7 @@ namespace Infrastructure.Repositories
             _context = context;
             Entities = _context.Set<TEntity>();
         }
-        public async Task<TEntity?> GetByIdAsync(object id)
+        public virtual async Task<TEntity?> GetByIdAsync(object id)
         {
             return await Entities.FindAsync(id);
         }
@@ -23,18 +23,18 @@ namespace Infrastructure.Repositories
         {
             return await Entities.ToListAsync();
         }
-        public async Task AddAsync(TEntity entity)
+        public virtual async Task AddAsync(TEntity entity)
         {
             await Entities.AddAsync(entity);
         }
-        public async Task AddRangeAsync(IEnumerable<TEntity> entities)
+        public virtual async Task AddRangeAsync(IEnumerable<TEntity> entities)
         {
             await Entities.AddRangeAsync(entities);
         }
 
         public void Update(TEntity entity)
         {
-            var attachedEntity = Entities.Local.FirstOrDefault(e => e.Id.Equals(entity.Id));
+            var attachedEntity = Entities.Local.FirstOrDefault(e => e.Id!.Equals(entity.Id));
 
             if (attachedEntity != null)
             {
