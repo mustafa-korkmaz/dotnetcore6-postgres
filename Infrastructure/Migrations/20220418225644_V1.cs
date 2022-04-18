@@ -139,7 +139,7 @@ namespace Infrastructure.Migrations
             migrationBuilder.InsertData(
                 table: "Users",
                 columns: new[] { "Id", "CreatedAt", "Email", "IsEmailConfirmed", "NameSurname", "PasswordHash", "Username" },
-                values: new object[] { new Guid("87622649-96c8-40b5-bcef-8351b0883b49"), new DateTimeOffset(new DateTime(2022, 4, 18, 12, 30, 28, 539, DateTimeKind.Unspecified).AddTicks(1401), new TimeSpan(0, 3, 0, 0, 0)), "mustafakorkmazdev@gmail.com", true, "Mustafa Korkmaz", "AD5bszN5VbOZSQW+1qcXQb08ElGNt9uNoTrsNenNHSsD1g2Gp6ya4+uFJWmoUsmfng==", "mustafakorkmazdev@gmail.com" });
+                values: new object[] { new Guid("87622649-96c8-40b5-bcef-8351b0883b49"), new DateTimeOffset(new DateTime(2022, 4, 19, 1, 56, 44, 433, DateTimeKind.Unspecified).AddTicks(4123), new TimeSpan(0, 3, 0, 0, 0)), "mustafakorkmazdev@gmail.com", true, "Mustafa Korkmaz", "AD5bszN5VbOZSQW+1qcXQb08ElGNt9uNoTrsNenNHSsD1g2Gp6ya4+uFJWmoUsmfng==", "mustafakorkmazdev@gmail.com" });
 
             migrationBuilder.CreateIndex(
                 name: "IX_OrderItems_OrderId",

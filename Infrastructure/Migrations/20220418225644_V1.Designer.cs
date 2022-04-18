@@ -12,7 +12,7 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(PostgresDbContext))]
-    [Migration("20220418093028_V1")]
+    [Migration("20220418225644_V1")]
     partial class V1
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -93,7 +93,7 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("87622649-96c8-40b5-bcef-8351b0883b49"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2022, 4, 18, 12, 30, 28, 539, DateTimeKind.Unspecified).AddTicks(1401), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2022, 4, 19, 1, 56, 44, 433, DateTimeKind.Unspecified).AddTicks(4123), new TimeSpan(0, 3, 0, 0, 0)),
                             Email = "mustafakorkmazdev@gmail.com",
                             IsEmailConfirmed = true,
                             NameSurname = "Mustafa Korkmaz",
