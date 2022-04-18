@@ -1,8 +1,6 @@
-﻿using Application.Dto;
-using Application.Dto.Order;
+﻿using Application.Dto.Order;
 using Application.Dto.Product;
 using AutoMapper;
-using Domain.Aggregates;
 using Domain.Aggregates.Order;
 using Domain.Aggregates.Product;
 
@@ -27,7 +25,7 @@ namespace Application
             CreateMap<OrderDto, Order>()
                 .ConvertUsing((src, dest) =>
                 {
-                    var order = new Order(Guid.NewGuid(), src.Username);
+                    var order = new Order(Guid.NewGuid(), src.UserId);
 
                     foreach (var item in src.Items)
                     {

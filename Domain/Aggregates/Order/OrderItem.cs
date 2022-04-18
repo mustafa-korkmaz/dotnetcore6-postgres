@@ -6,18 +6,21 @@ namespace Domain.Aggregates.Order
     /// </summary>
     public class OrderItem : EntityBase<Guid>
     {
-        public Guid OrderId { get; set; }
+        public Guid OrderId { get; private set; }
 
-        public Order? Order { get; set; }
+        public Order? Order { get; private set; }
 
-        public string ProductId { get; private set; }
+        public long ProductId { get; private set; }
+
+        public Product.Product Product { get; private set; }
 
         public decimal UnitPrice { get; private set; }
 
         public int Quantity { get; private set; }
 
-        internal OrderItem(string productId, decimal unitPrice, int quantity)
+        internal OrderItem(Guid orderId, long productId, decimal unitPrice, int quantity)
         {
+            OrderId = orderId;
             ProductId = productId;
             UnitPrice = unitPrice;
             Quantity = quantity;

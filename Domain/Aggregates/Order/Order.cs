@@ -1,9 +1,13 @@
 ﻿
+using Domain.Aggregates.Identity;
+
 namespace Domain.Aggregates.Order
 {
     public class Order : EntityBase<Guid>
     {
-        public string Username { get; private set; }
+        public Guid UserId { get; private set; }
+
+        public User? User { get; private set; }
 
         public decimal Price => Items.Sum(x => x.GetPrice());
 
@@ -20,15 +24,15 @@ namespace Domain.Aggregates.Order
             }
         }
 
-        public Order(Guid id, string username) : base(id)
+        public Order(Guid id, Guid userId) : base(id)
         {
             _items = new List<OrderItem>();
-            Username = username;
+            UserId = userId;
         }
 
-        public void AddItem(string productId, decimal unitPrice, int quantity)
+        public void AddItem(long productId, decimal unitPrice, int quantity)
         {
-            _items.Add(new OrderItem(productId, unitPrice, quantity));
+            _items.Add(new OrderItem(UserId, productId, unitPrice, quantity));
         }
     }
 }
