@@ -18,6 +18,10 @@ namespace Infrastructure.Persistance.Postgres
 
         public DbSet<UserRole> UserRoles { get; set; }
 
+        public DbSet<Claim> Claims { get; set; }
+
+        public DbSet<RoleClaim> RoleClaims { get; set; }
+
         public DbSet<Product> Products { get; set; }
 
         public DbSet<Order> Orders { get; set; }
@@ -94,17 +98,36 @@ namespace Infrastructure.Persistance.Postgres
 
             #endregion role modifications
 
+            #region user role modifications
+
+            modelBuilder.Entity<UserRole>()
+                .Property(p => p.UserId)
+                  .IsRequired();
+
+            modelBuilder.Entity<UserRole>()
+               .Property(p => p.RoleId)
+                 .IsRequired();
+
+            #endregion user role modifications
+
+            #region claim modifications
+
+            modelBuilder.Entity<Claim>()
+                .Property(p => p.Name)
+                .HasColumnType("varchar(20)")
+                .IsRequired();
+
+            #endregion claim modifications
+
             #region role claim modifications
 
-            //modelBuilder.Entity<ApplicationRoleClaim<Guid>>()
-            //    .Property(p => p.ClaimType)
-            //    .HasColumnType("varchar(50)")
-            //      .IsRequired();
+            modelBuilder.Entity<RoleClaim>()
+                .Property(p => p.ClaimId)
+                  .IsRequired();
 
-            //modelBuilder.Entity<ApplicationRoleClaim<Guid>>()
-            //    .Property(p => p.ClaimValue)
-            //    .HasColumnType("varchar(50)")
-            //      .IsRequired();
+            modelBuilder.Entity<RoleClaim>()
+               .Property(p => p.RoleId)
+                 .IsRequired();
 
             #endregion role claim modifications
 

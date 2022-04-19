@@ -22,6 +22,23 @@ namespace Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("Domain.Aggregates.Identity.Claim", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("varchar(20)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Claims");
+                });
+
             modelBuilder.Entity("Domain.Aggregates.Identity.Role", b =>
                 {
                     b.Property<int>("Id")
@@ -54,6 +71,27 @@ namespace Infrastructure.Migrations
                             Id = 3,
                             Name = "admin"
                         });
+                });
+
+            modelBuilder.Entity("Domain.Aggregates.Identity.RoleClaim", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("ClaimId")
+                        .HasColumnType("integer");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("integer");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ClaimId");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("RoleClaims");
                 });
 
             modelBuilder.Entity("Domain.Aggregates.Identity.User", b =>
@@ -91,7 +129,7 @@ namespace Infrastructure.Migrations
                         new
                         {
                             Id = new Guid("87622649-96c8-40b5-bcef-8351b0883b49"),
-                            CreatedAt = new DateTimeOffset(new DateTime(2022, 4, 19, 1, 56, 44, 433, DateTimeKind.Unspecified).AddTicks(4123), new TimeSpan(0, 3, 0, 0, 0)),
+                            CreatedAt = new DateTimeOffset(new DateTime(2022, 4, 19, 11, 49, 24, 87, DateTimeKind.Unspecified).AddTicks(9342), new TimeSpan(0, 3, 0, 0, 0)),
                             Email = "mustafakorkmazdev@gmail.com",
                             IsEmailConfirmed = true,
                             NameSurname = "Mustafa Korkmaz",
@@ -189,6 +227,25 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Products");
+                });
+
+            modelBuilder.Entity("Domain.Aggregates.Identity.RoleClaim", b =>
+                {
+                    b.HasOne("Domain.Aggregates.Identity.Claim", "Claim")
+                        .WithMany()
+                        .HasForeignKey("ClaimId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("Domain.Aggregates.Identity.Role", "Role")
+                        .WithMany()
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Claim");
+
+                    b.Navigation("Role");
                 });
 
             modelBuilder.Entity("Domain.Aggregates.Identity.UserRole", b =>
