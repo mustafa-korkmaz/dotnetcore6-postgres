@@ -19,6 +19,7 @@ namespace Presentation
                     opt.MapFrom(source => source.Email));
 
             CreateMap<UserDto, UserViewModel>();
+            CreateMap<UserDto, TokenViewModel>();
 
             CreateMap<AddEditProductViewModel, ProductDto>();
             CreateMap<ProductDto, ProductViewModel>();

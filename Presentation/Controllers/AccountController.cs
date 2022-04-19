@@ -1,6 +1,7 @@
 using Application.Dto.Identity;
 using Application.Services.Account;
 using AutoMapper;
+using Infrastructure.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Presentation.Middlewares.Validations;
@@ -35,6 +36,27 @@ namespace Presentation.Controllers
             var viewModel = _mapper.Map<UserViewModel>(userDto);
 
             return Created($"users/{viewModel.Id}", viewModel);
+        }
+
+        [ModelStateValidation]
+        [HttpPost("token")]
+        [ProducesResponseType(typeof(string), (int)HttpStatusCode.OK)]
+        [AllowAnonymous]
+        public async Task<IActionResult> Token([FromBody] GetTokenViewModel model)
+        {
+            var userDto = new UserDto
+            {
+                Email = model.EmailOrUsername!.GetNormalized(),
+                Username = model.EmailOrUsername!.GetNormalized()
+            };
+
+            var token = await _accountService.GetTokenAsync(userDto, model.Password!);
+
+            var resp = _mapper.Map<TokenViewModel>(userDto);
+
+            resp.Token = token;
+
+            return Ok(resp);
         }
     }
 }

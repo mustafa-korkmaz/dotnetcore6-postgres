@@ -3,6 +3,7 @@ namespace Application.Constants
 {
     public static class ErrorMessages
     {
+        public const string UserNotFound = "USER_NOT_FOUND";
         public const string RecordNotFound = "RECORD_NOT_FOUND";
         public const string InternalServerError = "UNEXPECTED_ERROR";
         public const string IncorrectUsernameOrPassword = "USERNAME_OR_PASSWORD_INCORRECT";

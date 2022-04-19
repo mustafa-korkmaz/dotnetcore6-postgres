@@ -13,6 +13,7 @@ namespace Application
     {
         public MappingProfile()
         {
+            CreateMap<User, UserDto>();
             CreateMap<UserDto, User>()
                 .ConvertUsing(src => new User(Guid.NewGuid(), src.Username.GetNormalized(), src.Email.GetNormalized(), src.NameSurname, src.IsEmailConfirmed, src.PasswordHash));
 

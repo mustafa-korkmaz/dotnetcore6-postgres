@@ -15,7 +15,7 @@ namespace Application.Dto.Identity
 
         public ICollection<string> Roles { get; set; } = new List<string>();
 
-        public Dictionary<string, string> Claims { get; set; } = new Dictionary<string, string>();
+        public ICollection<string> Claims { get; set; } = new List<string>();
 
         public DateTimeOffset CreatedAt { get; set; }
 

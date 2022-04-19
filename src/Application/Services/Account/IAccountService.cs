@@ -11,7 +11,7 @@ namespace Application.Services.Account
         /// <param name="userDto"></param>
         /// <param name="password"></param>
         /// <returns></returns>
-        Task<string> GetToken(UserDto userDto, string password);
+        Task<string> GetTokenAsync(UserDto userDto, string password);
 
         /// <summary>
         /// Creates user and sets user info
@@ -21,7 +21,7 @@ namespace Application.Services.Account
         /// <returns></returns>
         Task RegisterAsync(UserDto userDto, string password);
 
-        Task ResetAccount(string emailOrUsername);
+        Task ResetAccountAsync(string emailOrUsername);
 
         /// <summary>
         /// validates security code and returns respective user
@@ -29,7 +29,7 @@ namespace Application.Services.Account
         /// <param name="password"></param>
         /// <param name="securityCode"></param>
         /// <returns></returns>
-        Task<Guid> ConfirmPasswordReset(string password, string securityCode);
+        Task<Guid> ConfirmPasswordResetAsync(string password, string securityCode);
 
         /// <summary>
         /// changes user password
@@ -37,17 +37,17 @@ namespace Application.Services.Account
         /// <param name="userId"></param>
         /// <param name="newPassword"></param>
         /// <returns></returns>
-        Task ChangePassword(Guid userId, string newPassword);
+        Task ChangePasswordAsync(Guid userId, string newPassword);
 
-        Task ChangePassword(Guid userId, string oldPassword, string newPassword);
+        Task ChangePasswordAsync(Guid userId, string oldPassword, string newPassword);
 
         /// <summary>
         /// returns current user info by user id
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        Task<UserDto> GetUser(string userId);
+        Task<UserDto> GetUserAsync(string userId);
 
-        Task<Guid?> GetUserId(string email);
+        Task<Guid?> GetUserIdAsync(string email);
     }
 }
