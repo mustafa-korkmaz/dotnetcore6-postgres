@@ -7,12 +7,12 @@ namespace Domain.Aggregates.Identity
 
         public Claim(string name)
         {
-            Name = name.ToLowerInvariant();
+            Name = name;
         }
 
         public Claim(int id, string name) : base(id)
         {
-            Name = name.ToLowerInvariant();
+            Name = name;
         }
     }
 }

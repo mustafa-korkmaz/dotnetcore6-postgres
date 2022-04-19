@@ -9,7 +9,7 @@ namespace Presentation.ViewModels.Order
         public string? UserId { get; set; }
 
         [Required]
-        public ICollection<AddEditOrderItemViewModel> Items { get; set; }
+        public ICollection<AddEditOrderItemViewModel>? Items { get; set; }
     }
 
     public class AddEditOrderItemViewModel

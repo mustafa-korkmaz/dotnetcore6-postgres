@@ -1,8 +1,10 @@
 ﻿using Application.Dto;
+using Application.Dto.Identity;
 using Application.Dto.Order;
 using Application.Dto.Product;
 using AutoMapper;
 using Presentation.ViewModels;
+using Presentation.ViewModels.Identity;
 using Presentation.ViewModels.Order;
 using Presentation.ViewModels.Product;
 
@@ -12,6 +14,12 @@ namespace Presentation
     {
         public MappingProfile()
         {
+            CreateMap<AddUserViewModel, UserDto>()
+                  .ForMember(dest => dest.Username, opt =>
+                    opt.MapFrom(source => source.Email));
+
+            CreateMap<UserDto, UserViewModel>();
+
             CreateMap<AddEditProductViewModel, ProductDto>();
             CreateMap<ProductDto, ProductViewModel>();
             CreateMap(typeof(ListDtoResponse<,>), typeof(ListViewModelResponse<>));

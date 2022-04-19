@@ -1,4 +1,5 @@
 ﻿using Application;
+using Application.Services.Account;
 using Application.Services.Order;
 using Application.Services.Product;
 
@@ -30,6 +31,7 @@ namespace Presentation
         {
             services.AddTransient<IProductService, ProductService>();
             services.AddTransient<IOrderService, OrderService>();
+            services.AddTransient<IAccountService, AccountService>();
 
             return services;
         }

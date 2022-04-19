@@ -7,12 +7,12 @@ namespace Domain.Aggregates.Identity
 
         public Role(string name)
         {
-            Name = name.ToLowerInvariant();
+            Name = name;
         }
 
         public Role(int id, string name) : base(id)
         {
-            Name = name.ToLowerInvariant();
+            Name = name;
         }
     }
 }

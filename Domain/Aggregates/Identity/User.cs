@@ -17,12 +17,12 @@ namespace Domain.Aggregates.Identity
 
         public User(Guid id, string username, string email, string? nameSurname, bool isEmailConfirmed, string passwordHash) : base(id)
         {
-            Username = username.ToLowerInvariant();
-            Email = email.ToLowerInvariant();
+            Username = username;
+            Email = email;
             NameSurname = nameSurname;
             IsEmailConfirmed = isEmailConfirmed;
             PasswordHash = passwordHash;
-            CreatedAt = DateTimeOffset.Now;
+            CreatedAt = DateTimeOffset.UtcNow;
         }
     }
 }
