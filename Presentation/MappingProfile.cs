@@ -18,7 +18,9 @@ namespace Presentation
                   .ForMember(dest => dest.Username, opt =>
                     opt.MapFrom(source => source.Email));
 
-            CreateMap<UserDto, UserViewModel>();
+            CreateMap<UserDto, UserViewModel>()
+                 .ForMember(dest => dest.CreatedAt, opt =>
+                    opt.MapFrom(source => source.CreatedAt.UtcDateTime));
             CreateMap<UserDto, TokenViewModel>();
 
             CreateMap<AddEditProductViewModel, ProductDto>();

@@ -46,7 +46,7 @@ namespace Application.Services.Account
         /// </summary>
         /// <param name="userId"></param>
         /// <returns></returns>
-        Task<UserDto> GetUserAsync(string userId);
+        Task<UserDto> GetUserAsync(Guid userId);
 
         Task<Guid?> GetUserIdAsync(string email);
     }

@@ -12,7 +12,6 @@ namespace Infrastructure.Repositories
         public async Task<IReadOnlyCollection<Product>> ListByIdsAsync(string[] ids)
         {
             return null;
-           // return await Collection.Find(p => ids.Contains(p.Id)).ToListAsync();
         }
     }
 }

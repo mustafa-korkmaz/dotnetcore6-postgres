@@ -1,3 +1,4 @@
+using Application.Constants;
 using Application.Dto.Identity;
 using Application.Services.Account;
 using AutoMapper;
@@ -10,9 +11,9 @@ using System.Net;
 
 namespace Presentation.Controllers
 {
-    [ApiController]
+    [ApiController, Authorize(AppConstants.DefaultAuthorizationPolicy)]
     [Route("account")]
-    public class AccountController : ControllerBase
+    public class AccountController : ApiControllerBase
     {
         private readonly IAccountService _accountService;
         private readonly IMapper _mapper;
@@ -21,6 +22,17 @@ namespace Presentation.Controllers
         {
             _accountService = accountService;
             _mapper = mapper;
+        }
+
+        [HttpGet]
+        [ProducesResponseType(typeof(UserViewModel), (int)HttpStatusCode.OK)]
+        public async Task<IActionResult> Get()
+        {
+            var userDto = await _accountService.GetUserAsync(GetUserId());
+
+            var viewModel = _mapper.Map<UserViewModel>(userDto);
+
+            return Ok(viewModel);
         }
 
         [ModelStateValidation]

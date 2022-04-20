@@ -66,9 +66,6 @@ namespace Application.Services.Account
                 throw new ValidationException(ErrorMessages.IncorrectUsernameOrPassword);
             }
 
-            //get user roles
-            // var roles = await _userManager.GetRolesAsync(user);
-
             userDto.Id = user.Id;
             userDto.Username = user.Username;
             userDto.Email = user.Email;
@@ -77,9 +74,12 @@ namespace Application.Services.Account
             return GenerateToken(userDto);
         }
 
-        public Task<UserDto> GetUserAsync(string userId)
+        public async Task<UserDto> GetUserAsync(Guid userId)
         {
-            throw new NotImplementedException();
+            var user = await Repository.GetByIdAsync(userId);
+
+            //todo: fetch claims, roles 
+            return _mapper.Map<UserDto>(user);
         }
 
         public Task<Guid?> GetUserIdAsync(string email)
