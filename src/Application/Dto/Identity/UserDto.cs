@@ -13,8 +13,6 @@ namespace Application.Dto.Identity
 
         public string PasswordHash { get; set; } = string.Empty;
 
-        public ICollection<string> Roles { get; set; } = new List<string>();
-
         public ICollection<string> Claims { get; set; } = new List<string>();
 
         public DateTimeOffset CreatedAt { get; set; }

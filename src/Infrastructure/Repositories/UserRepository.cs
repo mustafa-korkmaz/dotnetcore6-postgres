@@ -10,14 +10,24 @@ namespace Infrastructure.Repositories
         {
         }
 
+        public override Task<User?> GetByIdAsync(object id)
+        {
+            var userId = (Guid)id;
+
+            return Entities.Include(p => p.Roles)
+                .FirstOrDefaultAsync(p => p.Id == userId);
+        }
+
         public Task<User?> GetByEmailAsync(string email)
         {
-            return Entities.FirstOrDefaultAsync(o => o.Email == email);
+            return Entities.Include(p => p.Roles)
+                .FirstOrDefaultAsync(o => o.Email == email);
         }
 
         public Task<User?> GetByUsernameAsync(string username)
         {
-            return Entities.FirstOrDefaultAsync(o => o.Username == username);
+            return Entities.Include(p => p.Roles)
+                .FirstOrDefaultAsync(o => o.Username == username);
         }
     }
 }

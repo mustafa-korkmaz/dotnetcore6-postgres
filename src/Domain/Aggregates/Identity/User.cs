@@ -15,8 +15,16 @@ namespace Domain.Aggregates.Identity
 
         public DateTimeOffset CreatedAt { get; private set; }
 
+        private ICollection<UserRole> _roles;
+        public IReadOnlyCollection<UserRole> Roles
+        {
+            get => _roles.ToList();
+            private set => _roles = value.ToList();
+        }
+
         public User(Guid id, string username, string email, string? nameSurname, bool isEmailConfirmed, string passwordHash) : base(id)
         {
+            _roles = new List<UserRole>();
             Username = username;
             Email = email;
             NameSurname = nameSurname;
