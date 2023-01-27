@@ -2,9 +2,11 @@
 
 namespace Application.Services
 {
-    public interface IService<TDto, TKey>
-        where TDto : IDto<TKey>
+    public interface IService<TDto>
+        where TDto : class
     {
+        Task<ListDtoResponse<TDto>> ListAsync(ListDtoRequest request);
+
         /// <summary>
         /// returns dto object by given id
         /// </summary>

@@ -1,6 +1,4 @@
-﻿
-
-namespace Domain.Aggregates
+﻿namespace Domain.Aggregates
 {
     /// <summary>
     /// base entity abstraction with guid primary key
@@ -8,10 +6,12 @@ namespace Domain.Aggregates
     public abstract class EntityBase<TKey> : IEntity<TKey>
     {
         public TKey Id { get; private set; }
+        public DateTime CreatedAt { get; private set; }
 
         public EntityBase()
         {
             Id = default(TKey);
+            CreatedAt = DateTime.UtcNow;
         }
 
         public EntityBase(TKey id)
@@ -26,6 +26,8 @@ namespace Domain.Aggregates
         /// Primary key for table
         /// </summary>
         TKey Id { get; }
+
+        DateTime CreatedAt { get; }
     }
 
     /// <summary>
@@ -36,7 +38,7 @@ namespace Domain.Aggregates
         public bool IsDeleted { get; set; }
     }
 
-    public class ListEntityResponse<TEntity, TKey> where TEntity : IEntity<TKey>
+    public class ListEntityResponse<TEntity> where TEntity : class
     {
         /// <summary>
         /// Paged list items
@@ -46,6 +48,15 @@ namespace Domain.Aggregates
         /// <summary>
         /// Total count of items stored in repository
         /// </summary>
-        public long TotalCount { get; set; }
+        public long RecordsTotal { get; set; }
+    }
+
+    public class ListEntityRequest
+    {
+        public bool IncludeRecordsTotal { get; set; }
+
+        public int Offset { get; set; }
+
+        public int Limit { get; set; }
     }
 }

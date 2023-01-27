@@ -16,7 +16,7 @@ namespace Application.Services
     /// <typeparam name="TDto">TDto is data transfer object.</typeparam>
     /// <typeparam name="TRepository"></typeparam>
     /// <typeparam name="TKey">TKey is PK type for entity</typeparam>
-    public abstract class ServiceBase<TRepository, TEntity, TDto, TKey> : IService<TDto, TKey>
+    public abstract class ServiceBase<TRepository, TEntity, TDto, TKey> : IService<TDto>
         where TEntity : class, IEntity<TKey>
         where TDto : DtoBase<TKey>
         where TRepository : IRepository<TEntity>
@@ -29,9 +29,18 @@ namespace Application.Services
         protected ServiceBase(IUnitOfWork uow, ILogger logger, IMapper mapper)
         {
             Uow = uow;
-            Repository = Uow.GetRepository<TRepository, TEntity>();
+            Repository = Uow.GetRepository<TRepository>();
             Logger = logger;
             Mapper = mapper;
+        }
+
+        public async Task<ListDtoResponse<TDto>> ListAsync(ListDtoRequest request)
+        {
+            var entityRequest = Mapper.Map<ListEntityRequest>(request);
+
+            var resp = await Repository.ListAsync(entityRequest);
+
+            return Mapper.Map<ListDtoResponse<TDto>>(resp);
         }
 
         public virtual async Task<TDto?> GetByIdAsync(object id)
@@ -56,7 +65,6 @@ namespace Application.Services
             await Uow.SaveAsync();
 
             dto.Id = entity.Id;
-
         }
 
         public async Task AddRangeAsync(TDto[] dtoList)
@@ -75,6 +83,10 @@ namespace Application.Services
 
         public virtual async Task UpdateAsync(TDto dto)
         {
+            if (dto.Id == null)
+            {
+                throw new ArgumentNullException(nameof(dto.Id));
+            }
 
             var entity = await Repository.GetByIdAsync(dto.Id);
 
@@ -91,7 +103,12 @@ namespace Application.Services
                 //Get CreatedAt property value from entity.
                 if (entityProperty.Name == "CreatedAt")
                 {
-                    PropertyInfo dtoProperty = typeof(TDto).GetProperty(entityProperty.Name); //POCO obj must have same prop as model
+                    PropertyInfo? dtoProperty = typeof(TDto).GetProperty(entityProperty.Name); //POCO obj must have same prop as model
+
+                    if (dtoProperty == null)
+                    {
+                        throw new ArgumentNullException(nameof(dtoProperty));
+                    }
 
                     var value = entityProperty.GetValue(entity); //get value of entity
 

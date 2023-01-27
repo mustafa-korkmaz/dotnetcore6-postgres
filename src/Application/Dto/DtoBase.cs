@@ -1,5 +1,4 @@
-﻿
-namespace Application.Dto
+﻿namespace Application.Dto
 {
     public interface IDto<TKey>
     {
@@ -11,7 +10,7 @@ namespace Application.Dto
         public TKey Id { get; set; } = default(TKey);
     }
 
-    public class ListDtoResponse<TDto, TKey> where TDto : IDto<TKey>
+    public class ListDtoResponse<TDto> where TDto : class
     {
         /// <summary>
         /// Paged list items
@@ -21,6 +20,15 @@ namespace Application.Dto
         /// <summary>
         /// Total count of items stored in repository
         /// </summary>
-        public long TotalCount { get; set; }
+        public long RecordsTotal { get; set; }
+    }
+
+    public class ListDtoRequest
+    {
+        public bool IncludeRecordsTotal { get; set; }
+
+        public int Offset { get; set; }
+
+        public int Limit { get; set; }
     }
 }

@@ -1,8 +1,7 @@
 ﻿
-using Domain.Aggregates;
-using Infrastructure.Persistance.Postgres;
 using Microsoft.EntityFrameworkCore.Storage;
 using System.Reflection;
+using Infrastructure.Persistance.Postgres;
 
 namespace Infrastructure.UnitOfWork
 {
@@ -45,32 +44,6 @@ namespace Infrastructure.UnitOfWork
             _disposed = true;
         }
 
-        public TRepository GetRepository<TRepository, TEntity>()
-      where TEntity : class
-      where TRepository : IRepository<TEntity>
-        {
-            if (_repositories == null)
-            {
-                _repositories = new Dictionary<string, object>();
-            }
-
-            var type = typeof(TEntity).Name;
-
-            if (!_repositories.ContainsKey(type))
-            {
-                var repositoryInterfaceType = typeof(TRepository);
-
-                var assignedTypesToRepositoryInterface = Assembly.GetExecutingAssembly().GetTypes().Where(t => repositoryInterfaceType.IsAssignableFrom(t)); //all types of your plugin
-
-                var repositoryType = assignedTypesToRepositoryInterface.First(p => p.Name[0] != 'I'); //filter interfaces, select only first implemented class
-
-                var repositoryInstance = Activator.CreateInstance(repositoryType, _context);
-                _repositories.Add(type, repositoryInstance);
-            }
-
-            return (TRepository)_repositories[type];
-        }
-
         public TRepository GetRepository<TRepository>()
         {
             if (_repositories == null)
@@ -78,7 +51,7 @@ namespace Infrastructure.UnitOfWork
                 _repositories = new Dictionary<string, object>();
             }
 
-            var type = "EntityFree_" + typeof(TRepository).Name;
+            var type = typeof(TRepository).Name;
 
             if (!_repositories.ContainsKey(type))
             {
@@ -89,6 +62,12 @@ namespace Infrastructure.UnitOfWork
                 var repositoryType = assignedTypesToRepositoryInterface.First(p => p.Name[0] != 'I'); //filter interfaces, select only first implemented class
 
                 var repositoryInstance = Activator.CreateInstance(repositoryType, _context);
+
+                if (repositoryInstance == null)
+                {
+                    throw new ArgumentNullException(nameof(repositoryInstance));
+                }
+
                 _repositories.Add(type, repositoryInstance);
             }
 

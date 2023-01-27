@@ -1,5 +1,4 @@
 ﻿
-using Application.Constants;
 using Application.Dto.Order;
 using AutoMapper;
 using Domain.Aggregates.Order;
@@ -16,7 +15,7 @@ namespace Application.Services.Order
         public OrderService(IUnitOfWork uow, ILogger<OrderService> logger, IMapper mapper)
         : base(uow, logger, mapper)
         {
-            _productRepository = Uow.GetRepository<IProductRepository, Domain.Aggregates.Product.Product>();
+            _productRepository = Uow.GetRepository<IProductRepository>();
         }
 
     }

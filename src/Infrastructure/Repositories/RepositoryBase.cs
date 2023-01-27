@@ -14,6 +14,30 @@ namespace Infrastructure.Repositories
             _context = context;
             Entities = _context.Set<TEntity>();
         }
+
+        public async Task<ListEntityResponse<TEntity>> ListAsync(ListEntityRequest request)
+        {
+            var result = new ListEntityResponse<TEntity>();
+
+            var query = Entities.AsQueryable();
+
+            if (request.IncludeRecordsTotal)
+            {
+                result.RecordsTotal = await query.CountAsync();
+            }
+
+            query = typeof(TKey) == typeof(Guid)
+                ? query.OrderByDescending(p => p.CreatedAt)
+                : query.OrderByDescending(p => p.Id);
+
+            result.Items = await query
+                .Skip(request.Offset)
+                .Take(request.Limit)
+                .ToListAsync();
+
+            return result;
+        }
+
         public virtual async Task<TEntity?> GetByIdAsync(object id)
         {
             return await Entities.FindAsync(id);
