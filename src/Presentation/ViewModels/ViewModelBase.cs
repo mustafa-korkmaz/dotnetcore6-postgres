@@ -1,6 +1,4 @@
-﻿using Presentation.Middlewares.Validations;
-using System.ComponentModel.DataAnnotations;
-using System.Text.Json.Serialization;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace Presentation.ViewModels
 {
@@ -11,6 +9,8 @@ namespace Presentation.ViewModels
 
     public class ListViewModelRequest
     {
+        public bool IncludeRecordsTotal { get; set; }
+
         public int Offset { get; set; }
 
         [Range(1, 1000)]
@@ -23,7 +23,7 @@ namespace Presentation.ViewModels
     /// <typeparam name="TSearchCriteria"></typeparam>
     public class ListViewModelRequest<TSearchCriteria> : ListViewModelRequest
     {
-        public TSearchCriteria SearchCriteria { get; set; }
+        public TSearchCriteria? SearchCriteria { get; set; }
     }
 
     public class ListViewModelResponse<TViewModel> where TViewModel : class
@@ -31,11 +31,11 @@ namespace Presentation.ViewModels
         /// <summary>
         /// Paged list items
         /// </summary>
-        public IReadOnlyCollection<TViewModel> Items { get; set; }
+        public IReadOnlyCollection<TViewModel> Items { get; set; } = new List<TViewModel>();
 
         /// <summary>
         /// Total count of items stored in repository
         /// </summary>
-        public long TotalCount { get; set; }
+        public long RecordsTotal { get; set; }
     }
 }

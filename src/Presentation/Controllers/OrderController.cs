@@ -6,6 +6,7 @@ using Presentation.Middlewares.Validations;
 using Presentation.ViewModels;
 using Presentation.ViewModels.Order;
 using System.Net;
+using Application.Dto;
 
 namespace Presentation.Controllers
 {
@@ -27,11 +28,16 @@ namespace Presentation.Controllers
         [ProducesResponseType(typeof(ListViewModelResponse<OrderViewModel>), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Search([FromQuery] ListViewModelRequest model)
         {
-            var resp = await ListAsync(model);
+            var request = _mapper.Map<ListDtoRequest>(model);
+
+            var dtos = await _orderService.ListAsync(request);
+
+            var resp = _mapper.Map<ListViewModelResponse<OrderViewModel>>(dtos);
 
             return Ok(resp);
         }
 
+        [ModelStateValidation]
         [HttpGet("{id}")]
         [ProducesResponseType(typeof(OrderViewModel), (int)HttpStatusCode.OK)]
         public async Task<IActionResult> Get([FromRoute] Guid id)
@@ -76,21 +82,14 @@ namespace Presentation.Controllers
             return NoContent();
         }
 
+        [ModelStateValidation]
         [HttpDelete("{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<IActionResult> Delete([FromRoute] string id)
+        public async Task<IActionResult> Delete([FromRoute] Guid id)
         {
             await _orderService.DeleteByIdAsync(id);
 
             return NoContent();
-        }
-
-        private async Task<ListViewModelResponse<OrderViewModel>> ListAsync(ListViewModelRequest model)
-        {
-            throw new NotImplementedException();
-            //var resp = await _orderService.ListAsync(model.Offset, model.Limit);
-
-            //return _mapper.Map<ListViewModelResponse<OrderViewModel>>(resp);
         }
     }
 }

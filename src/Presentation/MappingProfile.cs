@@ -15,19 +15,21 @@ namespace Presentation
         public MappingProfile()
         {
             CreateMap<AddUserViewModel, UserDto>()
-                  .ForMember(dest => dest.Username, opt =>
+                .ForMember(dest => dest.Username, opt =>
                     opt.MapFrom(source => source.Email));
 
             CreateMap<UserDto, UserViewModel>()
-                 .ForMember(dest => dest.CreatedAt, opt =>
+                .ForMember(dest => dest.CreatedAt, opt =>
                     opt.MapFrom(source => source.CreatedAt.UtcDateTime));
-          
+
             CreateMap<UserDto, TokenViewModel>()
                 .ForMember(dest => dest.CreatedAt, opt =>
                     opt.MapFrom(source => source.CreatedAt.UtcDateTime));
 
             CreateMap<AddEditProductViewModel, ProductDto>();
             CreateMap<ProductDto, ProductViewModel>();
+
+            CreateMap<ListViewModelRequest, ListDtoRequest>();
             CreateMap(typeof(ListDtoResponse<>), typeof(ListViewModelResponse<>));
 
             CreateMap<AddEditOrderViewModel, OrderDto>();
@@ -37,4 +39,3 @@ namespace Presentation
         }
     }
 }
-
