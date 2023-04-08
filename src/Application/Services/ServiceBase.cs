@@ -1,6 +1,7 @@
 ﻿using Application.Dto;
 using Domain.Aggregates;
 using Infrastructure.UnitOfWork;
+using Infrastructure.Repositories;
 using Microsoft.Extensions.Logging;
 using AutoMapper;
 using System.Reflection;
@@ -19,7 +20,7 @@ namespace Application.Services
     public abstract class ServiceBase<TRepository, TEntity, TDto, TKey> : IService<TDto>
         where TEntity : class, IEntity<TKey>
         where TDto : DtoBase<TKey>
-        where TRepository : IRepository<TEntity>
+        where TRepository : RepositoryBase<TEntity, TKey>
     {
         protected readonly IUnitOfWork Uow;
         protected readonly TRepository Repository;
@@ -103,7 +104,9 @@ namespace Application.Services
                 //Get CreatedAt property value from entity.
                 if (entityProperty.Name == "CreatedAt")
                 {
-                    PropertyInfo? dtoProperty = typeof(TDto).GetProperty(entityProperty.Name); //POCO obj must have same prop as model
+                    PropertyInfo?
+                        dtoProperty =
+                            typeof(TDto).GetProperty(entityProperty.Name); //POCO obj must have same prop as model
 
                     if (dtoProperty == null)
                     {
@@ -155,7 +158,6 @@ namespace Application.Services
 
             //log db record deletion as an info
             Logger.LogInformation($"'{type}' entity has been hard-deleted.");
-
         }
 
         private async Task SoftDeleteAsync(PropertyInfo propertyInfo, TEntity entity)

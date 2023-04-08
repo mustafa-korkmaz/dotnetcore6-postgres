@@ -10,10 +10,11 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Security.Principal;
+using Infrastructure.Repositories;
 
 namespace Application.Services.Account
 {
-    public class AccountService : ServiceBase<IUserRepository, User, UserDto, Guid>, IAccountService
+    public class AccountService : ServiceBase<UserRepository, User, UserDto, Guid>, IAccountService
     {
         private readonly ILogger<AccountService> _logger;
         private readonly IRoleRepository _roleRepository;
@@ -24,7 +25,7 @@ namespace Application.Services.Account
         {
             _logger = logger;
             _mapper = mapper;
-            _roleRepository = uow.GetRepository<IRoleRepository>();
+            _roleRepository = uow.GetRepository<RoleRepository>();
         }
 
         public Task ChangePasswordAsync(Guid userId, string newPassword)

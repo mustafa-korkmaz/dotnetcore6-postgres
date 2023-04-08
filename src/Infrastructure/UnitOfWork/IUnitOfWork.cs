@@ -10,7 +10,7 @@ namespace Infrastructure.UnitOfWork
         /// <returns></returns>
         Task<int> SaveAsync();
 
-        TRepository GetRepository<TRepository>();
+        TRepository GetRepository<TRepository>() where TRepository : class;
 
         IDbContextTransaction BeginTransaction();
     }

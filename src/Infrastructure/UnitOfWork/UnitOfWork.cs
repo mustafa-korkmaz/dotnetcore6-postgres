@@ -1,5 +1,4 @@
-﻿
-using Microsoft.EntityFrameworkCore.Storage;
+﻿using Microsoft.EntityFrameworkCore.Storage;
 using System.Reflection;
 using Infrastructure.Persistance.Postgres;
 
@@ -9,11 +8,12 @@ namespace Infrastructure.UnitOfWork
     {
         private readonly PostgresDbContext _context;
         private bool _disposed;
-        private Dictionary<string, object>? _repositories;
+        private readonly Dictionary<string, object> _repositories;
 
         public UnitOfWork(PostgresDbContext context)
         {
             _context = context;
+            _repositories = new Dictionary<string, object>();
         }
 
         public IDbContextTransaction BeginTransaction()
@@ -41,38 +41,28 @@ namespace Infrastructure.UnitOfWork
                     _context.Dispose();
                 }
             }
+
             _disposed = true;
         }
 
-        public TRepository GetRepository<TRepository>()
+        public TRepository GetRepository<TRepository>() where TRepository : class
         {
-            if (_repositories == null)
+            var repositoryType = typeof(TRepository);
+            var repositoryName = repositoryType.Name;
+
+            if (_repositories.ContainsKey(repositoryType.Name))
+                return (TRepository)_repositories[repositoryName];
+
+            var repositoryInstance = Activator.CreateInstance(repositoryType, _context);
+
+            if (repositoryInstance == null)
             {
-                _repositories = new Dictionary<string, object>();
+                throw new ArgumentNullException(nameof(repositoryInstance));
             }
 
-            var type = typeof(TRepository).Name;
+            _repositories.Add(repositoryName, repositoryInstance);
 
-            if (!_repositories.ContainsKey(type))
-            {
-                var repositoryInterfaceType = typeof(TRepository);
-
-                var assignedTypesToRepositoryInterface = Assembly.GetExecutingAssembly().GetTypes().Where(t => repositoryInterfaceType.IsAssignableFrom(t)); //all types of your plugin
-
-                var repositoryType = assignedTypesToRepositoryInterface.First(p => p.Name[0] != 'I'); //filter interfaces, select only first implemented class
-
-                var repositoryInstance = Activator.CreateInstance(repositoryType, _context);
-
-                if (repositoryInstance == null)
-                {
-                    throw new ArgumentNullException(nameof(repositoryInstance));
-                }
-
-                _repositories.Add(type, repositoryInstance);
-            }
-
-            return (TRepository)_repositories[type];
+            return (TRepository)_repositories[repositoryName];
         }
-
     }
 }
